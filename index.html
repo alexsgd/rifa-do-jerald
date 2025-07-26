@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Rifa do Jerald's</title>
+  <style>
+    body { font-family: sans-serif; text-align: center; padding: 2rem; background: #f5f5f5; }
+    h1 { color: #5A31F4; }
+    .grid { display: grid; grid-template-columns: repeat(10, 1fr); gap: 8px; margin: 2rem auto; max-width: 600px; }
+    .number { background: white; padding: 10px; border-radius: 8px; cursor: pointer; border: 2px solid #5A31F4; }
+    .selected { background-color: #5A31F4; color: white; }
+    form { margin-top: 2rem; }
+    input, button { padding: 10px; margin: 5px; width: 80%; max-width: 300px; }
+  </style>
+</head>
+<body>
+  <h1>🎉 Rifa do Jerald's</h1>
+  <p>Escolha seu número e preencha os dados para participar.</p>
+  <div class="grid" id="numberGrid"></div>
+
+  <form id="form">
+    <input type="text" id="nome" placeholder="Seu nome" required /><br />
+    <input type="text" id="whatsapp" placeholder="WhatsApp" required /><br />
+    <input type="hidden" id="numeroEscolhido" name="numero" />
+    <button type="submit">Reservar número</button>
+  </form>
+
+  <div id="confirmacao" style="display:none; margin-top:2rem;">
+    <h3>✅ Número reservado!</h3>
+    <p>Envie €50 para:</p>
+    <p><strong>IBAN:</strong> FR7630003032910005063056674</p>
+    <p><strong>Nome:</strong> Alexandre S.</p>
+  </div>
+
+  <script>
+    const grid = document.getElementById('numberGrid');
+    const confirmBox = document.getElementById('confirmacao');
+    const form = document.getElementById('form');
+    const numeroInput = document.getElementById('numeroEscolhido');
+    let selected = null;
+
+    for (let i = 1; i <= 100; i++) {
+      const div = document.createElement('div');
+      div.className = 'number';
+      div.innerText = i;
+      div.onclick = () => {
+        document.querySelectorAll('.number').forEach(el => el.classList.remove('selected'));
+        div.classList.add('selected');
+        selected = i;
+        numeroInput.value = i;
+      };
+      grid.appendChild(div);
+    }
+
+    form.onsubmit = (e) => {
+      e.preventDefault();
+      if (!selected) return alert('Selecione um número!');
+      confirmBox.style.display = 'block';
+      form.style.display = 'none';
+    };
+  </script>
+</body>
+</html>
